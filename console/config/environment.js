@@ -48,19 +48,22 @@ module.exports = function (environment) {
         },
 
         defaultValues: {
-            categoryImage: getenv('DEFAULT_CATEGORY_IMAGE', 'https://flb-assets.s3.ap-southeast-1.amazonaws.com/images/fallback-placeholder-1.png'),
-            placeholderImage: getenv('DEFAULT_PLACEHOLDER_IMAGE', 'https://flb-assets.s3.ap-southeast-1.amazonaws.com/static/image-file-icon.png'),
-            placeholderImageOld: getenv('DEFAULT_PLACEHOLDER_IMAGE_OLD', 'https://flb-assets.s3.ap-southeast-1.amazonaws.com/images/fallback-placeholder-2.png'),
-            driverImage: getenv('DEFAULT_DRIVER_IMAGE', 'https://s3.ap-southeast-1.amazonaws.com/flb-assets/static/no-avatar.png'),
-            userImage: getenv('DEFAULT_USER_IMAGE', 'https://s3.ap-southeast-1.amazonaws.com/flb-assets/static/no-avatar.png'),
-            contactImage: getenv('DEFAULT_CONTACT_IMAGE', 'https://s3.ap-southeast-1.amazonaws.com/flb-assets/static/no-avatar.png'),
-            entityImage: getenv('DEFAULT_ENTITY_IMAGE', 'https://flb-assets.s3-ap-southeast-1.amazonaws.com/static/parcels/medium.png'),
-            vendorImage: getenv('DEFAULT_VENDOR_IMAGE', 'https://s3.ap-southeast-1.amazonaws.com/flb-assets/static/no-avatar.png'),
-            vehicleImage: getenv('DEFAULT_VEHICLE_IMAGE', 'https://s3.ap-southeast-1.amazonaws.com/flb-assets/static/vehicle-placeholder.png'),
-            vehicleAvatar: getenv('DEFAULT_VEHICLE_AVATAR', 'https://flb-assets.s3-ap-southeast-1.amazonaws.com/static/vehicle-icons/mini_bus.svg'),
-            driverAvatar: getenv('DEFAULT_DRIVER_AVATAR', 'https://flb-assets.s3-ap-southeast-1.amazonaws.com/static/driver-icons/moto-driver.png'),
-            placeAvatar: getenv('DEFAULT_PLACE_AVATAR', 'https://flb-assets.s3-ap-southeast-1.amazonaws.com/static/place-icons/basic-building.png'),
-            extensionIcon: getenv('DEFAULT_EXTENSION_ICON', 'https://flb-assets.s3.ap-southeast-1.amazonaws.com/static/default-extension-icon.svg'),
+            categoryImage: getenv('DEFAULT_CATEGORY_IMAGE', '/images/defaults/placeholders/entity.png'),
+            placeholderImage: getenv('DEFAULT_PLACEHOLDER_IMAGE', '/images/defaults/placeholders/entity.png'),
+            placeholderImageOld: getenv('DEFAULT_PLACEHOLDER_IMAGE_OLD', '/images/defaults/placeholders/entity.png'),
+
+            driverImage: getenv('DEFAULT_DRIVER_IMAGE', '/images/defaults/avatars/driver.png'),
+            userImage: getenv('DEFAULT_USER_IMAGE', '/images/defaults/avatars/user.png'),
+            contactImage: getenv('DEFAULT_CONTACT_IMAGE', '/images/defaults/avatars/contact.png'),
+            entityImage: getenv('DEFAULT_ENTITY_IMAGE', '/images/defaults/placeholders/entity.png'),
+            vendorImage: getenv('DEFAULT_VENDOR_IMAGE', '/images/defaults/avatars/vendor.png'),
+            vehicleImage: getenv('DEFAULT_VEHICLE_IMAGE', '/images/defaults/placeholders/vehicle.png'),
+
+            vehicleAvatar: getenv('DEFAULT_VEHICLE_AVATAR', '/images/defaults/icons/vehicle.svg'),
+            driverAvatar: getenv('DEFAULT_DRIVER_AVATAR', '/images/defaults/icons/driver.svg'),
+            placeAvatar: getenv('DEFAULT_PLACE_AVATAR', '/images/defaults/icons/place.svg'),
+
+            extensionIcon: getenv('DEFAULT_EXTENSION_ICON', '/images/icon.svg'),
         },
 
         'ember-simple-auth': {

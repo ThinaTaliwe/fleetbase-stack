@@ -1,5 +1,5 @@
 app:
-  name: Fleetbase
+  name: BFR NATAL
 
 common:
   new: New
@@ -585,7 +585,7 @@ auth:
       nevermind-button: Nevermind
 
   login:
-    title: Sign in to your account
+    title: Sign in
     no-identity-notification: Did you forget to enter your email?
     no-password-notification: Did you forget to enter your password?
     unverified-notification: Your account needs to be verified to proceed.

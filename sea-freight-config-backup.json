@@ -1,0 +1,674 @@
+{
+    "id": 5,
+    "uuid": "010a90be-fc9b-4eba-83c0-1d141a7edb65",
+    "public_id": "order_config_uKs8ZiWLlm",
+    "company_uuid": "4e5e1f47-015d-465a-a35f-491f73695de4",
+    "author_uuid": "a84094ba-28c1-4cf3-a943-2f557460c903",
+    "category_uuid": null,
+    "icon_uuid": null,
+    "name": "Sea Freight",
+    "namespace": "betachem:order-config:sea-freight",
+    "description": "Professional B2B sea freight workflow for export and import shipments.",
+    "key": "sea-freight",
+    "status": "private",
+    "version": "0.0.1",
+    "core_service": 0,
+    "flow": {
+        "created": {
+            "key": "created",
+            "code": "created",
+            "color": "#1f2937",
+            "logic": [],
+            "events": [],
+            "status": "Order Created",
+            "actions": [],
+            "details": "Sea freight shipment created.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 1,
+            "activities": [
+                "booking_confirmed",
+                "canceled"
+            ],
+            "internalId": "24c67efc-64cf-4af7-bb80-dbc4e1feb705",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "on_hold": {
+            "key": "on_hold",
+            "code": "on_hold",
+            "color": "#EF4444",
+            "logic": [],
+            "events": [],
+            "status": "On Hold",
+            "actions": [],
+            "details": "Shipment is temporarily on hold pending operational or compliance resolution.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 98,
+            "activities": [
+                "booking_confirmed",
+                "container_allocated",
+                "cargo_received",
+                "gated_in",
+                "arrived_pod"
+            ],
+            "internalId": "4389bfaa-9639-4ed0-b5a3-3aa1f860adff",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "canceled": {
+            "key": "canceled",
+            "code": "canceled",
+            "color": "#991B1B",
+            "logic": [],
+            "events": [
+                "order.canceled"
+            ],
+            "status": "Canceled",
+            "actions": [],
+            "details": "Shipment was canceled before completion.",
+            "options": [],
+            "complete": true,
+            "entities": [],
+            "sequence": 99,
+            "activities": [],
+            "internalId": "eccd636a-4a20-477b-8c93-bd83a8caa496",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "gated_in": {
+            "key": "gated_in",
+            "code": "gated_in",
+            "color": "#8B5CF6",
+            "logic": [],
+            "events": [],
+            "status": "Gated In at Port",
+            "actions": [],
+            "details": "Container has entered the port terminal.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 5,
+            "activities": [
+                "loaded_on_vessel",
+                "on_hold"
+            ],
+            "internalId": "6739fc2b-0263-4620-9f6d-7a079e8c8400",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "completed": {
+            "key": "completed",
+            "code": "completed",
+            "color": "#16A34A",
+            "logic": [],
+            "events": [],
+            "status": "Completed",
+            "actions": [],
+            "details": "Sea freight shipment lifecycle completed.",
+            "options": [],
+            "complete": true,
+            "entities": [],
+            "sequence": 13,
+            "activities": [],
+            "internalId": "d97f87ff-71ec-4a7e-a440-2f316aeb4bc9",
+            "pod_method": "scan",
+            "require_pod": true
+        },
+        "delivered": {
+            "key": "delivered",
+            "code": "delivered",
+            "color": "#22C55E",
+            "logic": [],
+            "events": [],
+            "status": "Delivered",
+            "actions": [],
+            "details": "Shipment has been delivered to final consignee or nominated location.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 12,
+            "activities": [
+                "completed"
+            ],
+            "internalId": "f644b672-3436-466e-b381-896461d15a56",
+            "pod_method": "scan",
+            "require_pod": true
+        },
+        "in_transit": {
+            "key": "in_transit",
+            "code": "in_transit",
+            "color": "#2563EB",
+            "logic": [],
+            "events": [],
+            "status": "In Transit",
+            "actions": [],
+            "details": "Shipment is at sea.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 8,
+            "activities": [
+                "arrived_pod"
+            ],
+            "internalId": "0c255572-b258-491e-a615-3c5df1387699",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "arrived_pod": {
+            "key": "arrived_pod",
+            "code": "arrived_pod",
+            "color": "#F59E0B",
+            "logic": [],
+            "events": [],
+            "status": "Arrived at POD",
+            "actions": [],
+            "details": "Shipment has arrived at the Port of Discharge.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 9,
+            "activities": [
+                "customs_cleared",
+                "on_hold"
+            ],
+            "internalId": "23506bea-0cca-446c-b775-661ecf638d8e",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "departed_pol": {
+            "key": "departed_pol",
+            "code": "departed_pol",
+            "color": "#0891B2",
+            "logic": [],
+            "events": [],
+            "status": "Departed POL",
+            "actions": [],
+            "details": "Vessel has departed from the Port of Loading.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 7,
+            "activities": [
+                "in_transit"
+            ],
+            "internalId": "38dce159-b2b0-4caa-adae-dcb061284b0a",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "cargo_received": {
+            "key": "cargo_received",
+            "code": "cargo_received",
+            "color": "#06B6D4",
+            "logic": [],
+            "events": [],
+            "status": "Cargo Received",
+            "actions": [],
+            "details": "Cargo has been received and stuffed or prepared for port movement.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 4,
+            "activities": [
+                "gated_in",
+                "on_hold"
+            ],
+            "internalId": "a96d6423-d426-420a-ba27-8b0786e00f06",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "customs_cleared": {
+            "key": "customs_cleared",
+            "code": "customs_cleared",
+            "color": "#F97316",
+            "logic": [],
+            "events": [],
+            "status": "Customs Cleared",
+            "actions": [],
+            "details": "Shipment has cleared customs.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 10,
+            "activities": [
+                "ready_for_delivery"
+            ],
+            "internalId": "2d293511-1e57-45f2-bb3d-b81b225bb1c0",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "loaded_on_vessel": {
+            "key": "loaded_on_vessel",
+            "code": "loaded_on_vessel",
+            "color": "#10B981",
+            "logic": [],
+            "events": [],
+            "status": "Loaded on Vessel",
+            "actions": [],
+            "details": "Container has been loaded onto the vessel.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 6,
+            "activities": [
+                "departed_pol"
+            ],
+            "internalId": "469ef9c5-e011-482c-a2c0-fbfcd131b519",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "booking_confirmed": {
+            "key": "booking_confirmed",
+            "code": "booking_confirmed",
+            "color": "#2563EB",
+            "logic": [],
+            "events": [],
+            "status": "Booking Confirmed",
+            "actions": [],
+            "details": "Carrier booking has been confirmed.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 2,
+            "activities": [
+                "container_allocated",
+                "on_hold",
+                "canceled"
+            ],
+            "internalId": "0f8c702d-7ba1-4a8a-8913-9b176755f442",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "ready_for_delivery": {
+            "key": "ready_for_delivery",
+            "code": "ready_for_delivery",
+            "color": "#84CC16",
+            "logic": [],
+            "events": [],
+            "status": "Ready for Delivery",
+            "actions": [],
+            "details": "Shipment is ready for inland delivery or collection.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 11,
+            "activities": [
+                "delivered"
+            ],
+            "internalId": "14490c43-45b0-4037-bec0-bf5045406921",
+            "pod_method": "scan",
+            "require_pod": false
+        },
+        "container_allocated": {
+            "key": "container_allocated",
+            "code": "container_allocated",
+            "color": "#0EA5E9",
+            "logic": [],
+            "events": [],
+            "status": "Container Allocated",
+            "actions": [],
+            "details": "Shipping container has been allocated.",
+            "options": [],
+            "complete": false,
+            "entities": [],
+            "sequence": 3,
+            "activities": [
+                "cargo_received",
+                "on_hold"
+            ],
+            "internalId": "ab292d3b-f6f6-43d9-9229-7529f1a4a421",
+            "pod_method": "scan",
+            "require_pod": false
+        }
+    },
+    "entities": [
+        {
+            "id": "shipping-container",
+            "name": "Shipping Container",
+            "type": "iso-container",
+            "photo_url": "https:\/\/flb-assets.s3-ap-southeast-1.amazonaws.com\/static\/parcels\/medium.png",
+            "description": "ISO container unit used for sea freight cargo movements.",
+            "weight_unit": "kg",
+            "_internalModel": {
+                "modelName": "custom-entity"
+            },
+            "dimensions_unit": "cm"
+        }
+    ],
+    "tags": [
+        "sea",
+        "vessel",
+        "container",
+        "export",
+        "import",
+        "logistics"
+    ],
+    "meta": {
+        "mode": "maritime",
+        "field_groups": [
+            {
+                "key": "shipment_identity",
+                "label": "Shipment Identity",
+                "fields": [
+                    "booking_reference",
+                    "shipment_reference",
+                    "bill_of_lading"
+                ]
+            },
+            {
+                "key": "routing_carrier",
+                "label": "Routing & Carrier",
+                "fields": [
+                    "carrier",
+                    "vessel_name",
+                    "imo_number",
+                    "voyage_number",
+                    "port_of_loading",
+                    "port_of_discharge",
+                    "final_destination"
+                ]
+            },
+            {
+                "key": "container_details",
+                "label": "Container Details",
+                "fields": [
+                    "container_number",
+                    "container_type",
+                    "seal_number",
+                    "number_of_containers"
+                ]
+            },
+            {
+                "key": "cargo_commercial",
+                "label": "Cargo & Commercial",
+                "fields": [
+                    "commodity",
+                    "gross_weight",
+                    "weight_unit",
+                    "volume_cbm",
+                    "incoterm",
+                    "cargo_value_currency",
+                    "cargo_value_amount"
+                ]
+            },
+            {
+                "key": "parties_compliance",
+                "label": "Parties & Compliance",
+                "fields": [
+                    "shipper",
+                    "consignee",
+                    "notify_party",
+                    "freight_forwarder",
+                    "customs_status"
+                ]
+            },
+            {
+                "key": "dates_milestones",
+                "label": "Dates & Milestones",
+                "fields": [
+                    "cargo_ready_date",
+                    "etd",
+                    "eta",
+                    "actual_departure",
+                    "actual_arrival"
+                ]
+            },
+            {
+                "key": "documents_references",
+                "label": "Documents & References",
+                "fields": [
+                    "commercial_invoice_no",
+                    "packing_list_no",
+                    "export_declaration_no",
+                    "delivery_order_no"
+                ]
+            }
+        ],
+        "custom_fields": [
+            {
+                "key": "booking_reference",
+                "type": "text",
+                "label": "Booking Reference",
+                "required": true
+            },
+            {
+                "key": "shipment_reference",
+                "type": "text",
+                "label": "Shipment Reference",
+                "required": false
+            },
+            {
+                "key": "bill_of_lading",
+                "type": "text",
+                "label": "Bill of Lading",
+                "required": false
+            },
+            {
+                "key": "carrier",
+                "type": "text",
+                "label": "Carrier",
+                "required": false
+            },
+            {
+                "key": "vessel_name",
+                "type": "text",
+                "label": "Vessel Name",
+                "required": true
+            },
+            {
+                "key": "imo_number",
+                "type": "text",
+                "label": "IMO Number",
+                "required": false
+            },
+            {
+                "key": "voyage_number",
+                "type": "text",
+                "label": "Voyage Number",
+                "required": false
+            },
+            {
+                "key": "port_of_loading",
+                "type": "place",
+                "label": "Port of Loading",
+                "required": true
+            },
+            {
+                "key": "port_of_discharge",
+                "type": "place",
+                "label": "Port of Discharge",
+                "required": true
+            },
+            {
+                "key": "final_destination",
+                "type": "place",
+                "label": "Final Destination",
+                "required": false
+            },
+            {
+                "key": "container_number",
+                "type": "text",
+                "label": "Container Number",
+                "required": false
+            },
+            {
+                "key": "container_type",
+                "type": "select",
+                "label": "Container Type",
+                "options": [
+                    "20GP",
+                    "40GP",
+                    "40HC",
+                    "45HC",
+                    "20RF",
+                    "40RF"
+                ],
+                "required": false
+            },
+            {
+                "key": "seal_number",
+                "type": "text",
+                "label": "Seal Number",
+                "required": false
+            },
+            {
+                "key": "number_of_containers",
+                "type": "number",
+                "label": "Number of Containers",
+                "required": false
+            },
+            {
+                "key": "commodity",
+                "type": "text",
+                "label": "Commodity",
+                "required": false
+            },
+            {
+                "key": "gross_weight",
+                "type": "number",
+                "label": "Gross Weight",
+                "required": false
+            },
+            {
+                "key": "weight_unit",
+                "type": "select",
+                "label": "Weight Unit",
+                "options": [
+                    "kg",
+                    "lb"
+                ],
+                "required": false
+            },
+            {
+                "key": "volume_cbm",
+                "type": "number",
+                "label": "Volume (CBM)",
+                "required": false
+            },
+            {
+                "key": "incoterm",
+                "type": "select",
+                "label": "Incoterm",
+                "options": [
+                    "EXW",
+                    "FCA",
+                    "FOB",
+                    "CFR",
+                    "CIF",
+                    "DAP",
+                    "DDP"
+                ],
+                "required": false
+            },
+            {
+                "key": "cargo_value_currency",
+                "type": "text",
+                "label": "Cargo Value Currency",
+                "required": false
+            },
+            {
+                "key": "cargo_value_amount",
+                "type": "number",
+                "label": "Cargo Value Amount",
+                "required": false
+            },
+            {
+                "key": "shipper",
+                "type": "text",
+                "label": "Shipper",
+                "required": false
+            },
+            {
+                "key": "consignee",
+                "type": "text",
+                "label": "Consignee",
+                "required": false
+            },
+            {
+                "key": "notify_party",
+                "type": "text",
+                "label": "Notify Party",
+                "required": false
+            },
+            {
+                "key": "freight_forwarder",
+                "type": "text",
+                "label": "Freight Forwarder",
+                "required": false
+            },
+            {
+                "key": "customs_status",
+                "type": "select",
+                "label": "Customs Status",
+                "options": [
+                    "Pending",
+                    "Cleared",
+                    "Inspection",
+                    "Held"
+                ],
+                "required": false
+            },
+            {
+                "key": "cargo_ready_date",
+                "type": "date",
+                "label": "Cargo Ready Date",
+                "required": false
+            },
+            {
+                "key": "etd",
+                "type": "datetime",
+                "label": "ETD",
+                "required": false
+            },
+            {
+                "key": "eta",
+                "type": "datetime",
+                "label": "ETA",
+                "required": false
+            },
+            {
+                "key": "actual_departure",
+                "type": "datetime",
+                "label": "Actual Departure",
+                "required": false
+            },
+            {
+                "key": "actual_arrival",
+                "type": "datetime",
+                "label": "Actual Arrival",
+                "required": false
+            },
+            {
+                "key": "commercial_invoice_no",
+                "type": "text",
+                "label": "Commercial Invoice No.",
+                "required": false
+            },
+            {
+                "key": "packing_list_no",
+                "type": "text",
+                "label": "Packing List No.",
+                "required": false
+            },
+            {
+                "key": "export_declaration_no",
+                "type": "text",
+                "label": "Export Declaration No.",
+                "required": false
+            },
+            {
+                "key": "delivery_order_no",
+                "type": "text",
+                "label": "Delivery Order No.",
+                "required": false
+            }
+        ]
+    },
+    "created_at": "2026-03-19T11:10:34.000000Z",
+    "updated_at": "2026-03-19T12:52:27.000000Z",
+    "deleted_at": null,
+    "type": "order-config"
+}

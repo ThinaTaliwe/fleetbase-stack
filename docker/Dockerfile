@@ -116,7 +116,7 @@ RUN su www-data -s /bin/sh -c "composer install --no-scripts --optimize-autoload
 COPY --chown=www-data:www-data ./api /fleetbase/api
 
 # Dump autoload
-RUN su www-data -s /bin/sh -c "composer dumpautoload"
+RUN su www-data -s /bin/sh -c "composer dumpautoload --no-scripts"
 
 # Setup composer root directory
 RUN mkdir -p /root/.composer

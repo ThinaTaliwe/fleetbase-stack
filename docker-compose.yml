@@ -11,8 +11,6 @@ services:
   database:
     image: mysql:8.0-oracle
     restart: unless-stopped
-    ports:
-      - "3306:3306"
     volumes:
       - "./docker/database/:/docker-entrypoint-initdb.d/"
       - "./docker/database/mysql:/var/lib/mysql"
@@ -34,29 +32,49 @@ services:
     environment:
       SOCKETCLUSTER_WORKERS: 10
       SOCKETCLUSTER_BROKERS: 10
-      # SOCKETCLUSTER_OPTIONS can be set via docker-compose.override.yml for specific environments
-      # For production, use: SOCKETCLUSTER_OPTIONS: '{"origins":"https://yourdomain.com:*"}'
-      # For development, use: SOCKETCLUSTER_OPTIONS: '{"origins":"http://localhost:*"}'
+      SOCKETCLUSTER_OPTIONS: '{"origins":"*:*"}'
 
-  scheduler:
-    image: fleetbase/fleetbase-api:latest
-    command: ["go-crond", "--verbose", "root:./crontab"]
+  application:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     restart: unless-stopped
+    entrypoint: ["frankenphp", "php-server", "--listen", "0.0.0.0:80", "--root", "/fleetbase/api/public"]
+    ports:
+      - "8000:80"
+    volumes:
+      - ./api/.env:/fleetbase/api/.env
     environment:
+      ENVIRONMENT: development
       DATABASE_URL: "mysql://root@database/fleetbase"
       QUEUE_CONNECTION: redis
       CACHE_DRIVER: redis
       CACHE_PATH: /fleetbase/api/storage/framework/cache
       CACHE_URL: tcp://cache
       REDIS_URL: tcp://cache
+      SESSION_DOMAIN: 192.168.1.182
+      BROADCAST_DRIVER: socketcluster
+      MAIL_FROM_NAME: BFRN
+      APP_NAME: BFRN
+      LOG_CHANNEL: daily
+      REGISTRY_HOST: https://registry.fleetbase.io
+      REGISTRY_PREINSTALLED_EXTENSIONS: "true"
+      OSRM_HOST: https://router.project-osrm.org
+      SSM_PARENT_ENABLED: "false"
+      AWS_EC2_METADATA_DISABLED: "true"
     depends_on:
       - database
       - cache
+      - queue
 
   queue:
-    image: fleetbase/fleetbase-api:latest
-    command: ["php", "artisan", "queue:work"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     restart: unless-stopped
+    entrypoint: ["php", "artisan", "queue:work", "--verbose", "--tries=1", "--timeout=120"]
+    volumes:
+      - ./api/.env:/fleetbase/api/.env
     healthcheck:
       test: ["CMD", "php", "artisan", "queue:status"]
       interval: 30s
@@ -69,9 +87,37 @@ services:
       CACHE_PATH: /fleetbase/api/storage/framework/cache
       CACHE_URL: tcp://cache
       REDIS_URL: tcp://cache
+      SSM_PARENT_ENABLED: "false"
+      AWS_EC2_METADATA_DISABLED: "true"
     depends_on:
-        - database
-        - cache
+      - database
+      - cache
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    entrypoint: ["go-crond", "--verbose", "root:./crontab"]
+    volumes:
+      - ./api/.env:/fleetbase/api/.env
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f go-crond >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      DATABASE_URL: "mysql://root@database/fleetbase"
+      QUEUE_CONNECTION: redis
+      CACHE_DRIVER: redis
+      CACHE_PATH: /fleetbase/api/storage/framework/cache
+      CACHE_URL: tcp://cache
+      REDIS_URL: tcp://cache
+      SSM_PARENT_ENABLED: "false"
+      AWS_EC2_METADATA_DISABLED: "true"
+    depends_on:
+      - database
+      - cache
 
   console:
     build:
@@ -79,41 +125,24 @@ services:
       dockerfile: Dockerfile
       args:
         ENVIRONMENT: development
+    restart: unless-stopped
     ports:
       - "4200:4200"
     volumes:
       - ./console/fleetbase.config.json:/usr/share/nginx/html/fleetbase.config.json
 
-  application:
-    image: fleetbase/fleetbase-api:latest
-    volumes:
-      - ./api/.env:/fleetbase/api/.env
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: fleetbase-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
     environment:
-      ENVIRONMENT: development
-      DATABASE_URL: "mysql://root@database/fleetbase"
-      QUEUE_CONNECTION: redis
-      CACHE_DRIVER: redis
-      CACHE_PATH: /fleetbase/api/storage/framework/cache
-      CACHE_URL: tcp://cache
-      REDIS_URL: tcp://cache
-      SESSION_DOMAIN: localhost
-      BROADCAST_DRIVER: socketcluster
-      MAIL_FROM_NAME: Fleetbase
-      APP_NAME: Fleetbase
-      LOG_CHANNEL: daily
-      REGISTRY_HOST: https://registry.fleetbase.io
-      REGISTRY_PREINSTALLED_EXTENSIONS: 'true'
-      OSRM_HOST: https://router.project-osrm.org
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD:
     depends_on:
       - database
-      - cache
-      - queue
-
-  httpd:
-    build:
-      context: .
-      dockerfile: docker/httpd/Dockerfile
-    ports:
-      - "8000:80"
-    depends_on:
-      - application
+    networks:
+      - default
