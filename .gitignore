@@ -56,3 +56,20 @@ builds/osx/frankenphp
 *.dll
 *.so
 *.dylib
+
+# ENV (never commit secrets)
+api/.env
+
+# Dependencies
+api/vendor/
+console/node_modules/
+
+# Laravel storage (keep structure but ignore contents)
+api/storage/logs/*
+api/storage/framework/cache/*
+api/storage/framework/sessions/*
+api/storage/framework/views/*
+
+# OS junk
+.DS_Store
+Thumbs.db
